@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'includes/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,16 +16,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $result->fetch_assoc();
         
         if (password_verify($password, $user['password'])) {
-            session_start();
+
             $_SESSION['username'] = $user['username'];
             header("Location: dashboard.html");
+            exit();
         } else {
             $error = "Invalid password!";
             header("Location: login.html?error=password");
+            exit();
         }
     } else {
         $error = "No user found!";
         header("Location: login.html?error=user");
+        exit();
     }
 
     $stmt->close();
