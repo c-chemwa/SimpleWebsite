@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ss", $username, $password);
 
         if ($stmt->execute()) {
-            header("Location: login.html");
+            header("Location: dashboard.html");
         } else {
             echo "Error: " . $conn->error;
         }
