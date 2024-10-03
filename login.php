@@ -17,44 +17,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $user['password'])) {
             session_start();
             $_SESSION['username'] = $user['username'];
-            header("Location: dashboard.php");
+            header("Location: dashboard.html");
         } else {
             $error = "Invalid password!";
+            header("Location: login.html?error=password");
         }
     } else {
-        $error = "No user found with that username!";
+        $error = "No user found!";
+        header("Location: login.html?error=user");
     }
 
     $stmt->close();
     $conn->close();
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h2>Login</h2>
-        <?php if (!empty($error)): ?>
-            <div class="error"><?php echo $error; ?></div>
-        <?php endif; ?>
-        <form method="POST" action="login.php">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <button type="submit">Login</button>
-        </form>
-        <a href="signup.php">Don't have an account? Sign Up</a>
-    </div>
-</body>
-</html>
-
